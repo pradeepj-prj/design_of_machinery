@@ -1,0 +1,27 @@
+# LaTeX build artifacts
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+
+# macOS
+.DS_Store
+
+# Copyrighted textbook and chapter PDFs (keep local only)
+*(McGraw-Hill*.pdf
+Chapter_*/Chapter_*_Introduction.pdf
+Chapter_*/Chapter_*_Fundamentals.pdf
+Chapter_*/Chapter_*_Synthesis.pdf
+Chapter_*/Chapter_*_Analysis.pdf
+Chapter_*/Chapter_*_Design.pdf
+Chapter_*/Chapter_*_Trains.pdf
+Chapter_*/Chapter_*_Balancing.pdf
+Chapter_*/Chapter_*_Dynamics.pdf
+Chapter_*/Chapter_*_Engines.pdf
+Chapter_*/Chapter_*_Mechanisms.pdf
+Reference_Slides/*.pdf

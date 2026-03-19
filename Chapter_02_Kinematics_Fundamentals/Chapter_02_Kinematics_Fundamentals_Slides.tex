@@ -1,0 +1,1118 @@
+\documentclass[10pt,aspectratio=43]{beamer}
+
+% ============================================================
+% Theme and style — match the Reference_Slides aesthetic
+% ============================================================
+\usetheme{default}
+\usecolortheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,calc,decorations.pathreplacing}
+
+\usepackage{tcolorbox}
+\tcbuselibrary{skins}
+
+\newtcolorbox{yellowbox}{
+  colback=yellow!20, colframe=yellow!20, boxrule=0pt, arc=0pt,
+  left=4pt, right=4pt, top=4pt, bottom=4pt}
+
+\newtcolorbox{redbox}{
+  colback=red!15, colframe=red!15, boxrule=0pt, arc=0pt,
+  left=4pt, right=4pt, top=4pt, bottom=4pt}
+
+\newtcolorbox{greenbox}{
+  colback=green!10, colframe=green!10, boxrule=0pt, arc=0pt,
+  left=4pt, right=4pt, top=4pt, bottom=4pt}
+
+\setbeamertemplate{footline}{%
+  \hfill\insertframenumber/\inserttotalframenumber\hspace*{6pt}\vspace*{4pt}%
+}
+\setbeamertemplate{itemize items}[circle]
+
+% Page reference command
+\newcommand{\pref}[1]{\vfill\hfill{\scriptsize\color{gray}[Norton, pp.~#1]}}
+
+% ============================================================
+\title{Chapter 2: Kinematics Fundamentals}
+\subtitle{Design of Machinery --- Norton, 6th Edition}
+\author{}
+\date{}
+
+\begin{document}
+
+% ============================================================
+% TITLE
+% ============================================================
+
+\begin{frame}
+\frametitle{Chapter 2: Kinematics Fundamentals}
+
+\begin{itemize}
+  \item Degrees of freedom and mobility
+  \item Types of motion
+  \item Links, joints, and kinematic chains
+  \item Gruebler's and Kutzbach's equations
+  \item Mechanisms vs.\ structures
+  \item Number synthesis
+  \item Paradoxes and isomers
+  \item Linkage transformation
+  \item Intermittent motion and inversion
+  \item The Grashof condition and fourbar classification
+  \item Linkages of more than four bars
+  \item Practical considerations and motors
+\end{itemize}
+
+\vspace{4pt}
+\textbf{Related Reading:} Norton, Ch.~2, pp.~30--97.
+\end{frame}
+
+% ============================================================
+% 2.0--2.1 DOF
+% ============================================================
+
+\begin{frame}
+\frametitle{Degrees of Freedom (DOF) or Mobility}
+
+\begin{yellowbox}
+\textbf{Degree of freedom (DOF)} or \textbf{mobility} ($M$) of a mechanical system: \emph{the number of independent parameters (measurements) needed to uniquely define its position in space at any instant of time.}
+\end{yellowbox}
+
+\vspace{6pt}
+\textbf{A rigid body in a plane} (2-D):
+\begin{itemize}
+  \item Needs 3 parameters: two linear coordinates ($x, y$) and one angular ($\theta$).
+  \item A rigid body in a plane has \textbf{three DOF}.
+\end{itemize}
+
+\vspace{4pt}
+\textbf{A rigid body in 3-D space:}
+\begin{itemize}
+  \item Needs 6 parameters: three lengths ($x, y, z$) plus three angles ($\theta, \phi, \rho$).
+  \item A rigid body in three-space has \textbf{six DOF}.
+\end{itemize}
+
+\vspace{4pt}
+\textbf{Key assumption:} For kinematic analysis, all bodies are \textbf{rigid} and \textbf{massless}. Deformations can be superposed later.
+\pref{30--31}
+\end{frame}
+
+% ============================================================
+% 2.2 TYPES OF MOTION
+% ============================================================
+
+\begin{frame}
+\frametitle{Types of Motion in a Plane}
+
+\begin{yellowbox}
+\textbf{Pure rotation:} One point (center of rotation) has no motion w.r.t.\ the stationary frame. All other points describe arcs about that center. A reference line changes only its angular orientation.
+\end{yellowbox}
+
+\vspace{4pt}
+\begin{yellowbox}
+\textbf{Pure translation:} All points on the body describe parallel (curvilinear or rectilinear) paths. A reference line changes linear position but \emph{not} angular orientation.
+\end{yellowbox}
+
+\vspace{4pt}
+\begin{yellowbox}
+\textbf{Complex motion:} A simultaneous combination of rotation and translation. Any reference line changes both its linear position and angular orientation. At every instant there exists a (moving) center of rotation.
+\end{yellowbox}
+
+\vspace{4pt}
+Translation and rotation are \textbf{independent} motions. In a 2-D coordinate system: $x$, $y$ = translation components; $\theta$ = rotation component.
+\pref{32}
+\end{frame}
+
+% ============================================================
+% 2.3 LINKS, JOINTS, KINEMATIC CHAINS
+% ============================================================
+
+\begin{frame}
+\frametitle{Links}
+
+All common mechanisms (linkages, cams, gears, belts, chains) are variations on links and joints.
+
+\vspace{6pt}
+\begin{yellowbox}
+A \textbf{link} is an (assumed) rigid body that possesses at least two \textbf{nodes} --- points for attachment to other links.
+\end{yellowbox}
+
+\vspace{6pt}
+Links are classified by their number of nodes (link order):
+
+\begin{center}
+\begin{tabular}{lcl}
+\toprule
+\textbf{Name} & \textbf{Nodes} & \textbf{Description} \\
+\midrule
+Binary link & 2 & Simplest; two attachment points \\
+Ternary link & 3 & Three attachment points \\
+Quaternary link & 4 & Four attachment points \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+Real links can be any shape; a ``kinematic'' link is just a line between nodes. Shading or crosshatching indicates a solid link in kinematic diagrams.
+\pref{32--33}
+\end{frame}
+
+\begin{frame}
+\frametitle{Joints (Kinematic Pairs)}
+
+\begin{yellowbox}
+A \textbf{joint} is a connection between two or more links (at their nodes) that allows some motion or potential motion between them. Also called a \textbf{kinematic pair}.
+\end{yellowbox}
+
+\vspace{4pt}
+Joints can be classified by:
+\begin{enumerate}
+  \item Type of contact (line, point, surface)
+  \item Number of DOF allowed at the joint
+  \item Type of physical closure (\textbf{force} or \textbf{form} closed)
+  \item Number of links joined (\textbf{joint order})
+\end{enumerate}
+
+\vspace{4pt}
+\textbf{Lower pairs} (Reuleaux): surface contact $\to$ better lubrication, longer life.
+
+\textbf{Higher pairs}: point or line contact.
+
+\vspace{4pt}
+For \textbf{planar mechanisms}, only two lower pairs are usable:
+\begin{itemize}
+  \item \textbf{Revolute (R)} --- pin joint, 1 DOF (rotation)
+  \item \textbf{Prismatic (P)} --- slider joint, 1 DOF (translation)
+\end{itemize}
+\pref{33--34}
+\end{frame}
+
+\begin{frame}
+\frametitle{The Six Lower Pairs}
+
+\begin{center}
+\small
+\begin{tabular}{l|c|c|l}
+\toprule
+\textbf{Name} & \textbf{Symbol} & \textbf{DOF} & \textbf{Contains} \\
+\midrule
+Revolute & R & 1 & R \\
+Prismatic & P & 1 & P \\
+Helical (screw) & H & 1 & R + P (coupled) \\
+Cylindric & C & 2 & R + P \\
+Spherical (ball) & S & 3 & R + R + R \\
+Planar (flat) & F & 3 & R + P + P \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{6pt}
+\textbf{R} and \textbf{P} are the basic building blocks of all other pairs.
+
+\vspace{4pt}
+\textbf{Full joints} (lower pairs): 1 DOF --- remove 2 DOF from the system.
+
+\textbf{Half joints} (higher pairs, roll-slide): 2 DOF --- remove only 1 DOF.
+
+\vspace{4pt}
+\textbf{Joint order} $=$ number of links joined minus one. Two links $\to$ order 1. Three links $\to$ order 2 (a \textbf{multiple joint}).
+\pref{33--35}
+\end{frame}
+
+\begin{frame}
+\frametitle{Form Closure vs.\ Force Closure}
+
+\begin{yellowbox}
+\textbf{Form-closed joint:} Kept together by its geometry (e.g., pin in hole, slider in slot).
+
+\textbf{Force-closed joint:} Requires an external force to keep it together (e.g., pin in half-bearing, cam-follower with spring return).
+\end{yellowbox}
+
+\vspace{6pt}
+The choice matters for mechanism behavior:
+\begin{itemize}
+  \item In \textbf{linkages}: form closure is usually preferred (easy to accomplish).
+  \item In \textbf{cam-follower systems}: force closure is often preferred (spring-loaded followers).
+\end{itemize}
+
+\vspace{6pt}
+\textbf{Rolling contact} (e.g., tire on road): can be \textbf{pure roll} (full joint, 1 DOF), \textbf{pure slide} (full joint, 1 DOF), or \textbf{roll-slide} (half joint, 2 DOF), depending on friction.
+\pref{35}
+\end{frame}
+
+\begin{frame}
+\frametitle{Kinematic Chains, Mechanisms, and Machines}
+
+\begin{yellowbox}
+\textbf{Kinematic chain:} An assemblage of links and joints interconnected to provide a controlled output motion in response to a supplied input motion.
+\end{yellowbox}
+
+\vspace{4pt}
+\begin{yellowbox}
+\textbf{Mechanism:} A kinematic chain in which at least one link is \textbf{grounded} (attached to the frame of reference).
+\end{yellowbox}
+
+\vspace{4pt}
+\begin{yellowbox}
+\textbf{Machine} (Reuleaux): A collection of mechanisms arranged to transmit forces and do work.
+\end{yellowbox}
+
+\vspace{6pt}
+Special link types:
+\begin{itemize}
+  \item \textbf{Crank:} makes a complete revolution; pivoted to ground.
+  \item \textbf{Rocker:} oscillatory (back-and-forth) rotation; pivoted to ground.
+  \item \textbf{Coupler} (connecting rod): complex motion; \emph{not} pivoted to ground.
+  \item \textbf{Ground:} any link or links that are fixed (nonmoving).
+\end{itemize}
+\pref{35--36}
+\end{frame}
+
+% ============================================================
+% 2.4 KINEMATIC DIAGRAMS
+% ============================================================
+
+\begin{frame}
+\frametitle{Drawing Kinematic Diagrams}
+
+Kinematic diagrams are simplified, schematic representations of mechanisms. They show only the kinematic structure (links and joints), not the physical shape.
+
+\vspace{6pt}
+\textbf{Notation conventions:}
+\begin{itemize}
+  \item Binary, ternary, quaternary links: shown as lines or shaded polygons.
+  \item \textbf{Moving revolute joint:} small circle.
+  \item \textbf{Grounded revolute joint:} circle with hatching/ground symbol.
+  \item \textbf{Moving slider:} rectangle on a line.
+  \item \textbf{Grounded slider:} rectangle with ground symbol.
+  \item \textbf{Half joints:} shown with both contact surfaces.
+\end{itemize}
+
+\vspace{4pt}
+\begin{redbox}
+It is \textbf{critical} that your diagram clearly indicate which links/joints are grounded and which can move. Without this, nobody can interpret your design's kinematics.
+\end{redbox}
+\pref{36--37}
+\end{frame}
+
+% ============================================================
+% 2.5 GRUEBLER'S EQUATION
+% ============================================================
+
+\begin{frame}
+\frametitle{Determining DOF: Gruebler's Equation}
+
+\begin{yellowbox}
+\textbf{Degree of freedom} (mobility $M$): The number of inputs needed to provide a predictable output; equivalently, the number of independent coordinates required to define the system's position.
+\end{yellowbox}
+
+\vspace{4pt}
+Kinematic chains can be \textbf{open} (like a robot arm) or \textbf{closed} (loop).
+
+\vspace{4pt}
+Any link in a plane has 3 DOF. A system of $L$ unconnected links: $3L$ DOF. Each full joint removes 2 DOF. Each grounded link removes 3 DOF.
+
+\vspace{4pt}
+\begin{redbox}
+\textbf{Gruebler's equation:}
+\[
+  M = 3L - 2J - 3G \tag{2.1a}
+\]
+where $M$ = mobility, $L$ = number of links, $J$ = number of joints, $G$ = number of grounded links.
+\end{redbox}
+
+Since $G$ is always 1 in any real mechanism:
+\[
+  M = 3(L - 1) - 2J \tag{2.1b}
+\]
+\pref{38--40}
+\end{frame}
+
+\begin{frame}
+\frametitle{Kutzbach's Modification}
+
+Half joints remove only 1 DOF (they have 2 DOF). Using \textbf{Kutzbach's} form:
+
+\begin{redbox}
+\[
+  M = 3(L - 1) - 2J_1 - J_2 \tag{2.1c}
+\]
+where:
+\begin{itemize}
+  \item $J_1$ = number of 1-DOF (full) joints
+  \item $J_2$ = number of 2-DOF (half) joints
+\end{itemize}
+\end{redbox}
+
+\vspace{6pt}
+\textbf{Important counting rules:}
+\begin{itemize}
+  \item Half joints count as 1/2 in the $J$ of equation~2.1b.
+  \item \textbf{Multiple joints} (3 or more links at one pin) count as one less than the number of links joined. E.g., 3 links at one pin $= 2$ full joints.
+  \item This equation uses no information about link \textbf{sizes or shapes} --- only their \textbf{quantity}.
+\end{itemize}
+\pref{40}
+\end{frame}
+
+\begin{frame}
+\frametitle{Example: Applying Gruebler's Equation}
+
+\textbf{Example 1:} A linkage with $L = 8$, $J = 10$ (all full joints, including multiple joints counted correctly), no half joints.
+\[
+  M = 3(8-1) - 2(10) = 21 - 20 = 1 \quad \checkmark
+\]
+One input needed to drive the mechanism.
+
+\vspace{6pt}
+\textbf{Example 2:} A linkage with $L = 6$, $J_1 = 7$ (full), $J_2 = 1$ (half joint).
+\[
+  M = 3(6-1) - 2(7) - 1 = 15 - 14 - 1 = 0
+\]
+This is a \textbf{structure}, not a mechanism.
+
+\vspace{6pt}
+\begin{greenbox}
+\textbf{Quick check:} For any proposed mechanism, compute $M$ from Gruebler's equation \emph{before} investing time in detailed design. It requires no information about link sizes, only counts.
+\end{greenbox}
+\pref{40--41}
+\end{frame}
+
+% ============================================================
+% 2.6 MECHANISMS AND STRUCTURES
+% ============================================================
+
+\begin{frame}
+\frametitle{Mechanisms, Structures, and Preloaded Structures}
+
+The DOF completely predicts the character of a link assembly:
+
+\begin{center}
+\begin{tabular}{c|l|l}
+\toprule
+\textbf{DOF} & \textbf{Type} & \textbf{Behavior} \\
+\midrule
+$M > 0$ & Mechanism & Links have relative motion \\
+$M = 0$ & Structure & No motion possible (rigid) \\
+$M < 0$ & Preloaded structure & No motion; internal stresses \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{6pt}
+\begin{itemize}
+  \item $M > 0$: a mechanism with $M$ inputs needed.
+  \item $M = 0$: \textbf{exact constraint} --- a structure (like a truss). Parts can be assembled without strain if manufactured correctly.
+  \item $M < 0$: \textbf{preloaded/indeterminate} structure --- parts must be forced together, creating internal stresses. Common in buildings, bridges, and machine frames.
+\end{itemize}
+
+\vspace{4pt}
+Our concern: devices with \textbf{positive DOF} (mechanisms).
+\pref{41--42}
+\end{frame}
+
+% ============================================================
+% 2.7 NUMBER SYNTHESIS
+% ============================================================
+
+\begin{frame}
+\frametitle{Number Synthesis}
+
+\begin{yellowbox}
+\textbf{Number synthesis:} The determination of the number and order of links and joints necessary to produce motion of a particular DOF.
+\end{yellowbox}
+
+\vspace{4pt}
+\textbf{Key result:} For full joints only, an odd number of DOF requires an \emph{even} number of links, and vice versa.
+
+\vspace{4pt}
+From Gruebler: for 1-DOF mechanisms with only full joints, $L$ must be even: $L = 4, 6, 8, \ldots$
+
+\vspace{6pt}
+Important relationships for link orders ($B$ = binary, $T$ = ternary, $Q$ = quaternary, \ldots):
+\[
+  L = B + T + Q + P + H + \cdots \tag{2.4a}
+\]
+\[
+  M = B - Q - 2P - 3H - 3 \tag{2.4e}
+\]
+
+\begin{redbox}
+The ternary links \textbf{drop out} of the mobility equation! Adding or subtracting ternary links \emph{in pairs} does not affect the DOF of the mechanism.
+\end{redbox}
+\pref{42--44}
+\end{frame}
+
+\begin{frame}
+\frametitle{Number Synthesis: Results for 1-DOF Mechanisms}
+
+For 1-DOF ($M=1$) using only full revolute joints, up to 8 links:
+
+\begin{center}
+\small
+\begin{tabular}{c|ccccc}
+\toprule
+$L$ & Binary & Ternary & Quaternary & Pentagonal & Hexagonal \\
+\midrule
+4 & 4 & 0 & 0 & 0 & 0 \\
+\midrule
+6 & 4 & 2 & 0 & 0 & 0 \\
+6 & 5 & 0 & 1 & 0 & 0 \\
+\midrule
+8 & 7 & 0 & 0 & 0 & 1 \\
+8 & 4 & 4 & 0 & 0 & 0 \\
+8 & 5 & 2 & 1 & 0 & 0 \\
+8 & 6 & 0 & 2 & 0 & 0 \\
+8 & 6 & 1 & 0 & 1 & 0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\begin{yellowbox}
+\textbf{Key takeaway:} The simplest 1-DOF mechanism is the \textbf{fourbar linkage} (4 binary links). For 6 links there are 2 configurations; for 8 links there are 5.
+\end{yellowbox}
+\pref{44--46; Table 2-2}
+\end{frame}
+
+% ============================================================
+% 2.8 PARADOXES
+% ============================================================
+
+\begin{frame}
+\frametitle{Gruebler Paradoxes}
+
+Because Gruebler's criterion ignores link sizes and shapes, it can give \textbf{misleading results} for certain special geometric configurations.
+
+\vspace{6pt}
+\textbf{Example 1: The E-quintet} (5 links, 6 joints, $M = 0$ by Gruebler). But with equispaced nodes and equal-length ternary links, it actually moves ($M = 1$)!
+
+\vspace{4pt}
+\textbf{Example 2: Rolling cylinders} (3 links, 3 full joints if no slip, $M = 0$ by Gruebler). But if the center distance equals the sum of radii, it actually moves ($M = 1$).
+
+\vspace{6pt}
+\begin{redbox}
+\textbf{Warning:} None of the simple mobility equations (Gruebler, Kutzbach) can resolve all paradoxes. A complete \textbf{position analysis} (Chapter~4) is necessary to guarantee mobility. The designer must be alert to these inconsistencies.
+\end{redbox}
+\pref{46--47}
+\end{frame}
+
+% ============================================================
+% 2.9 ISOMERS
+% ============================================================
+
+\begin{frame}
+\frametitle{Isomers}
+
+\begin{yellowbox}
+\textbf{Isomer} (from Greek: ``having equal parts''): Linkages that have the same number and type of links but are interconnected differently, yielding different motion properties.
+\end{yellowbox}
+
+\vspace{4pt}
+Analogy: chemical isomers (n-butane vs.\ isobutane: same atoms, different connections, different properties).
+
+\vspace{6pt}
+\begin{center}
+\small
+\begin{tabular}{c|c}
+\toprule
+\textbf{Links} & \textbf{Valid isomers} \\
+\midrule
+4 & 1 \\
+6 & 2 (Watt's chain, Stephenson's chain) \\
+8 & 16 \\
+10 & 230 \\
+12 & 6856 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+An isomer is \textbf{invalid} if the highest-order link has more than $n/2$ nodes (where $n$ = total links), or if it contains a structural subchain with $DOF = 0$.
+\pref{47--49; Table 2-3}
+\end{frame}
+
+% ============================================================
+% 2.10 LINKAGE TRANSFORMATION
+% ============================================================
+
+\begin{frame}
+\frametitle{Linkage Transformation Rules}
+
+Given a basic linkage from number synthesis (all revolute joints), we can transform it into a wider variety of mechanisms:
+
+\begin{yellowbox}
+\textbf{Six transformation rules:}
+\begin{enumerate}
+  \item Revolute joints $\to$ prismatic joints (if $\geq 2$ revolutes remain in the loop). \textbf{DOF unchanged.}
+  \item Full joint $\to$ half joint. \textbf{DOF increases by one.}
+  \item Remove a link. \textbf{DOF decreases by one.}
+  \item Rules 2 + 3 combined. \textbf{DOF unchanged.}
+  \item Partially shrink a higher-order link (coalesce nodes $\to$ multiple joint). \textbf{DOF unchanged.}
+  \item Completely shrink a higher-order link (remove it). \textbf{DOF decreases.}
+\end{enumerate}
+\end{yellowbox}
+\pref{49--52}
+\end{frame}
+
+\begin{frame}
+\frametitle{Linkage Transformation: Key Examples}
+
+\textbf{Rule 1:} Fourbar crank-rocker $\to$ \textbf{crank-slider}
+
+Replace the rocker pivot with a slider. The slider block is equivalent to an infinitely long rocker pivoted at infinity. Still 1 DOF. Used in piston engines and pumps.
+
+\vspace{6pt}
+\textbf{Rule 4:} Fourbar $\to$ \textbf{cam-follower}
+
+Remove link~3, replace the full joint with a half joint between links 2 and 4. The coupler becomes an effective link of variable length. Still 1 DOF. The cam-follower is a fourbar in disguise!
+
+\vspace{6pt}
+\textbf{Rule 4:} Fourbar slider-crank $\to$ \textbf{Scotch yoke}
+
+Replace coupler with a half joint (slot). Gives exact simple harmonic motion of the slider for constant-speed crank input.
+
+\vspace{4pt}
+\begin{greenbox}
+\textbf{Insight:} All common mechanism types (linkages, cams, gears) are transformations of a common set of basic kinematic chains.
+\end{greenbox}
+\pref{50--52}
+\end{frame}
+
+% ============================================================
+% 2.11 INTERMITTENT MOTION
+% ============================================================
+
+\begin{frame}
+\frametitle{Intermittent Motion}
+
+\begin{yellowbox}
+\textbf{Intermittent motion:} A sequence of motions and \textbf{dwells} (periods where the output is stationary while the input continues to move).
+\end{yellowbox}
+
+\vspace{6pt}
+\textbf{Geneva mechanism:}
+\begin{itemize}
+  \item A transformed fourbar (coupler replaced by half joint).
+  \item Input crank with a pin enters radial slots on the Geneva wheel.
+  \item Produces intermittent rotation of the output.
+  \item Number of slots $=$ number of ``stops'' (minimum 3).
+  \item Arc on crank engages periphery to lock the wheel between stops.
+\end{itemize}
+
+\vspace{4pt}
+\textbf{Ratchet and pawl:}
+\begin{itemize}
+  \item Driving pawl indexes the ratchet wheel (counterclockwise only).
+  \item Locking pawl prevents reverse rotation.
+  \item Widely used: wrenches, winches, etc.
+\end{itemize}
+\pref{53--54}
+\end{frame}
+
+% ============================================================
+% 2.12 INVERSION
+% ============================================================
+
+\begin{frame}
+\frametitle{Inversion}
+
+\begin{yellowbox}
+An \textbf{inversion} is created by grounding a \emph{different link} in the kinematic chain. A linkage has as many inversions as it has links.
+\end{yellowbox}
+
+\vspace{4pt}
+Not all inversions produce distinct motions. We call those that do \textbf{distinct inversions}.
+
+\vspace{6pt}
+\textbf{The fourbar slider-crank} has 4 inversions (all distinct):
+
+\begin{center}
+\small
+\begin{tabular}{c|l|l}
+\toprule
+\textbf{\#} & \textbf{Grounded link} & \textbf{Application} \\
+\midrule
+1 & Link 1 (frame) & Piston engines, pumps \\
+2 & Link 2 (crank) & Whitworth/crank-shaper \\
+3 & Link 3 (coupler) & Slider block rotates \\
+4 & Link 4 (slider) & Hand-operated well pump \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\textbf{Watt's sixbar:} 2 distinct inversions. \textbf{Stephenson's sixbar:} 3 distinct inversions. \textbf{Pin-jointed fourbar:} 4 distinct inversions (crank-rocker, double-crank, double-rocker, triple-rocker).
+\pref{53--56}
+\end{frame}
+
+% ============================================================
+% 2.13 THE GRASHOF CONDITION
+% ============================================================
+
+\begin{frame}
+\frametitle{The Grashof Condition}
+
+The fourbar linkage is the simplest pin-jointed mechanism for single-DOF controlled motion. The \textbf{Grashof condition} predicts its rotation behavior based on link lengths alone.
+
+\vspace{4pt}
+Let: $S$ = shortest link, $L$ = longest link, $P$, $Q$ = other two links.
+
+\begin{redbox}
+\textbf{Grashof condition:}
+\[
+  S + L \leq P + Q \tag{2.8}
+\]
+If this inequality holds, the linkage is \textbf{Grashof} and at least one link can make a full revolution (\textbf{Class I}).
+
+If $S + L > P + Q$: \textbf{non-Grashof} (\textbf{Class II}) --- no link can fully rotate.
+
+If $S + L = P + Q$: \textbf{special-case Grashof} (\textbf{Class III}) --- change points exist.
+\end{redbox}
+
+\vspace{4pt}
+The Grashof condition is checked on \textbf{unassembled links} --- independent of assembly order.
+\pref{56}
+\end{frame}
+
+\begin{frame}
+\frametitle{Grashof Class I: Inversions}
+
+For Class I ($S + L < P + Q$), the inversions depend on which link is grounded (relative to the shortest link $S$):
+
+\vspace{6pt}
+\begin{center}
+\small
+\begin{tabular}{l|l|l}
+\toprule
+\textbf{Grounded link} & \textbf{Type} & \textbf{Code} \\
+\midrule
+Link adjacent to $S$ & \textbf{Crank-rocker} & GCRR \\
+Shortest link $S$ & \textbf{Double-crank} (drag link) & GCCC \\
+Link opposite $S$ & \textbf{Double-rocker} (coupler rotates) & GRCR \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{6pt}
+\textbf{Class II} ($S + L > P + Q$): All four inversions are \textbf{triple-rockers} (RRR1--RRR4). No link can fully rotate.
+
+\vspace{6pt}
+\textbf{Class III} ($S + L = P + Q$): \textbf{Change points} occur when all links become colinear. Behavior is unpredictable at these points (``uncertainty configurations''). Includes the \textbf{parallelogram} and \textbf{deltoid} (kite) forms.
+\pref{57--59}
+\end{frame}
+
+\begin{frame}
+\frametitle{Special-Case Grashof Linkages}
+
+\textbf{Parallelogram linkage} ($S + L = P + Q$, opposite links equal):
+\begin{itemize}
+  \item Coupler is in curvilinear translation (all points trace identical circles).
+  \item Used to couple two output rockers (e.g., windshield wipers).
+  \item Has change points every $180^\circ$.
+\end{itemize}
+
+\vspace{4pt}
+\textbf{Antiparallelogram} (``butterfly'' or ``bow-tie''):
+\begin{itemize}
+  \item Also a double-crank but with different angular velocity at output.
+  \item Change points require a companion linkage $90^\circ$ out of phase.
+\end{itemize}
+
+\vspace{4pt}
+\textbf{Deltoid} (kite):
+\begin{itemize}
+  \item Two pairs of adjacent equal links.
+  \item Short crank makes 2 revolutions per 1 revolution of the long crank.
+  \item Also called an isoceles linkage or \textbf{Galloway} mechanism.
+\end{itemize}
+
+\vspace{4pt}
+There is nothing inherently bad about any Grashof class --- all are useful in the right application.
+\pref{59}
+\end{frame}
+
+\begin{frame}
+\frametitle{Barker's Complete Classification (14 Types)}
+
+Barker classifies all fourbar linkages using \textbf{link ratios} $\lambda_1 = r_1/r_2$, $\lambda_3 = r_3/r_2$, $\lambda_4 = r_4/r_2$ (where $r_1$ = ground, $r_2$ = input, $r_3$ = coupler, $r_4$ = output):
+
+\vspace{4pt}
+\begin{center}
+\scriptsize
+\begin{tabular}{c|c|l|l}
+\toprule
+\textbf{Type} & \textbf{Class} & \textbf{Barker's Designation} & \textbf{Common Name} \\
+\midrule
+1--4 & I (Grashof) & GCCC, GCRR, GRCR, GRRC & Double-crank, crank-rocker, etc. \\
+5--8 & II (non-Grashof) & RRR1--RRR4 & All triple-rockers \\
+9--12 & III (special) & SCCC, SCRR, SRCR, SRRC & Change-point types \\
+13 & III & S2X & Parallelogram / deltoid \\
+14 & III & S3X & Square \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+The solution space ($\lambda_1, \lambda_3, \lambda_4$) is divided into 8 volumes by 4 zero-mobility planes and 3 change-point planes. Each volume contains a unique Barker type.
+\pref{60--61; Table 2-4}
+\end{frame}
+
+% ============================================================
+% 2.14 LINKAGES > 4 BARS
+% ============================================================
+
+\begin{frame}
+\frametitle{Linkages of More Than Four Bars}
+
+\textbf{Geared fivebar linkage:}
+\begin{itemize}
+  \item Add one link and one joint to a fourbar $\to$ 2 DOF.
+  \item Add a gearset between two links $\to$ back to 1 DOF.
+  \item Called the \textbf{geared fivebar mechanism (GFBM)}.
+  \item More complex motions than the fourbar.
+\end{itemize}
+
+\vspace{6pt}
+\textbf{Sixbar linkages} --- two fundamental types:
+\begin{itemize}
+  \item \textbf{Watt's sixbar:} two fourbars connected \emph{in series} (sharing two links).
+  \item \textbf{Stephenson's sixbar:} two fourbars connected \emph{in parallel} (sharing two links).
+\end{itemize}
+
+\vspace{4pt}
+Many linkages can be designed by combining multiple fourbar chains as \textbf{basic building blocks}. The basic building block of zero-DOF structures is the \textbf{delta triplet} (3-link triangle).
+
+\vspace{4pt}
+\textbf{Grashof-type criteria} exist for geared fivebars (Ting):
+\[
+  L_1 + L_2 + L_5 < L_3 + L_4 \tag{2.12}
+\]
+\pref{62--64}
+\end{frame}
+
+\begin{frame}
+\frametitle{N-Bar Rotatability Criteria}
+
+For general $N$-bar revolute-jointed linkages (Ting et al.):
+
+\vspace{4pt}
+\textbf{Assemblability} (necessary and sufficient): the longest link must be shorter than the sum of all others:
+\[
+  L_N \leq \sum_{k=1}^{N-1} L_k \tag{2.13}
+\]
+
+\textbf{Rotatability classification} for single-loop, $N$-bar chains:
+\begin{yellowbox}
+\begin{itemize}
+  \item \textbf{Class I:} $L_N + (L_1 + L_2 + \cdots + L_{N-3}) < L_{N-2} + L_{N-1}$
+  \item \textbf{Class II:} $>$ (non-Grashof)
+  \item \textbf{Class III:} $=$ (change points)
+\end{itemize}
+\end{yellowbox}
+
+\vspace{4pt}
+\textbf{Revolvability} of any link $L_i$:
+\[
+  L_i + L_N \leq \sum_{\substack{k=1 \\ k \neq i}}^{N-1} L_k \tag{2.16}
+\]
+If $L_i$ is revolvable, any link not longer than $L_i$ is also revolvable.
+\pref{64}
+\end{frame}
+
+% ============================================================
+% 2.15--2.17 SPRINGS, COMPLIANT, MEMS
+% ============================================================
+
+\begin{frame}
+\frametitle{Springs as Links, Compliant Mechanisms, and MEMS}
+
+\textbf{Springs as links:}
+\begin{itemize}
+  \item A spring acts as an additional link of variable length.
+  \item Can counterbalance static loads to reduce effective DOF to zero, holding the mechanism in static equilibrium.
+  \item Example: desk lamp, automobile hood strut.
+  \item Spring constant: $k = F/x$.
+\end{itemize}
+
+\vspace{4pt}
+\textbf{Compliant mechanisms:}
+\begin{itemize}
+  \item Use \textbf{flexibility} of members instead of discrete joints.
+  \item Fewer parts, no assembly, inherent spring loading.
+  \item Examples: plastic box ``living hinge,'' compliant forceps, toggle switches.
+  \item Difficult to analyze (large deflections).
+\end{itemize}
+
+\vspace{4pt}
+\textbf{MEMS} (Micro Electro-Mechanical Systems):
+\begin{itemize}
+  \item Mechanisms at the micrometer scale, etched from silicon wafers.
+  \item Compliant mechanisms are well-suited to MEMS fabrication.
+  \item Applications: airbag sensors, pressure monitors, microswitches.
+\end{itemize}
+\pref{65--68}
+\end{frame}
+
+% ============================================================
+% 2.18 PRACTICAL CONSIDERATIONS
+% ============================================================
+
+\begin{frame}
+\frametitle{Practical Considerations: Joint Types}
+
+\textbf{Revolute (pin) joints:}
+\begin{itemize}
+  \item Preferred for most applications: easy to design, lubricate, and manufacture.
+  \item Use a \textbf{journal} (sleeve) bearing for simplicity, or ball/roller bearings for precision.
+  \item \textbf{Spherical rod ends}: accommodate misalignment; allow link length adjustment.
+  \item \textbf{Pillow blocks} and \textbf{flange mounts}: convenient for grounded pivots.
+\end{itemize}
+
+\vspace{6pt}
+\textbf{Prismatic (slider) joints:}
+\begin{itemize}
+  \item Require machined slots or rods; lubrication is more difficult.
+  \item Use linear ball bearings for precision applications.
+\end{itemize}
+
+\vspace{6pt}
+\textbf{Higher (half) joints:}
+\begin{itemize}
+  \item Cam-follower and pin-in-slot: line contact, worse lubrication.
+  \item Must be run in oil bath with seals for long life.
+\end{itemize}
+\pref{69--71}
+\end{frame}
+
+\begin{frame}
+\frametitle{Practical Considerations: Mounting and Bearing Ratio}
+
+\textbf{Cantilever vs.\ straddle mount:}
+\begin{itemize}
+  \item \textbf{Straddle mount} (pin supported on both sides): preferred --- pin is in double shear, no bending moment on links.
+  \item \textbf{Cantilever mount} (pin supported on one side only): weaker --- single shear, bending moment. Use a shoulder screw if unavoidable.
+\end{itemize}
+
+\vspace{6pt}
+\begin{redbox}
+\textbf{Bearing ratio} for slider joints:
+\[
+  BR = \frac{L}{D} = \frac{\text{effective length of slider}}{\text{effective diameter of bearing}}
+\]
+For smooth operation: $BR \geq 1.5$. The larger the better.
+
+A drawer with only side-rails as guides has $BR < 1$ and will jam. Adding a center guide dramatically increases the effective $L/D$.
+\end{redbox}
+\pref{71--73}
+\end{frame}
+
+\begin{frame}
+\frametitle{Linkages vs.\ Cams: Design Trade-offs}
+
+\begin{center}
+\small
+\begin{tabular}{l|c|c}
+\toprule
+\textbf{Criterion} & \textbf{Linkages} & \textbf{Cams} \\
+\midrule
+Size relative to output & Larger & Smaller \\
+Synthesis difficulty & Hard & Easy (with software) \\
+Manufacturing cost & Low & High (precision grinding) \\
+Precision & Lower & Higher \\
+Dwell capability & Difficult & Easy \\
+Environmental tolerance & Excellent & Poor (needs sealing) \\
+Lubrication needs & Minimal & Critical \\
+Speed capability & Higher & Lower \\
+Load capacity & Higher & Lower \\
+Sensitivity to mfg.\ error & Low & High \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\begin{yellowbox}
+\textbf{Design rule:} Always try a pure linkage solution first. Use cams only when a straight, sliding, or exact dwell motion is required that a linkage cannot provide economically.
+\end{yellowbox}
+\pref{73}
+\end{frame}
+
+% ============================================================
+% 2.19 MOTORS AND DRIVERS
+% ============================================================
+
+\begin{frame}
+\frametitle{Motors and Drivers: Overview}
+
+Unless manually operated, a mechanism needs a \textbf{driver} (motor, engine, cylinder). The main division:
+
+\vspace{4pt}
+\begin{center}
+\begin{tabular}{l|l}
+\toprule
+\textbf{Rotary input} & \textbf{Linear input} \\
+\midrule
+Electric motors & Hydraulic/pneumatic cylinders \\
+Gasoline/diesel engines & Solenoids \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{6pt}
+\textbf{Electric motors} --- classified by:
+\begin{itemize}
+  \item Function: \textbf{gearmotors}, \textbf{servomotors}, \textbf{stepper motors}
+  \item Configuration: \textbf{AC} vs.\ \textbf{DC}
+  \item Power class: subfractional ($<$1/20 HP), fractional (1/20--1 HP), integral ($>$1 HP)
+\end{itemize}
+
+\vspace{4pt}
+A motor is selected based on its \textbf{torque-speed curve}: this predicts how speed varies with applied load.
+\pref{74--75}
+\end{frame}
+
+\begin{frame}
+\frametitle{DC Motor Types}
+
+All DC motors share: max torque at stall (zero speed), zero torque at max speed. Power = torque $\times$ angular velocity.
+
+\vspace{6pt}
+\begin{center}
+\small
+\begin{tabular}{l|l|l}
+\toprule
+\textbf{Type} & \textbf{Characteristic} & \textbf{Application} \\
+\midrule
+Permanent magnet & Torque varies linearly with speed & General purpose \\
+Shunt-wound & Flatter curve, speed-sensitive & Fans, blowers \\
+Series-wound & Very high start torque, can run away & Traction drives \\
+Compound-wound & Combines shunt + series & Cranes, hoists \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\textbf{Speed-controlled DC motors:} Use a controller to maintain constant speed despite varying load. Can also use a \textbf{flywheel} to smooth speed variations.
+
+\vspace{4pt}
+\textbf{AC motors:} Cheaper for continuous rotation. Synchronous speed: $n_s = 120f / p$ (where $f$ = line frequency, $p$ = poles). Most common: 4-pole $\to$ 1725 rpm (async) at 60 Hz.
+\pref{75--77}
+\end{frame}
+
+\begin{frame}
+\frametitle{Servomotors, Steppers, and Linear Actuators}
+
+\textbf{Servomotors:}
+\begin{itemize}
+  \item \textbf{Closed-loop} control (sensors feed back position/velocity).
+  \item High torque, flat speed-torque curve, ``soft start'' capability.
+  \item Used in: CNC machines, robots, aircraft control surfaces.
+  \item Available in AC and DC types.
+\end{itemize}
+
+\vspace{4pt}
+\textbf{Stepper motors:}
+\begin{itemize}
+  \item \textbf{Open-loop} (no feedback --- can lose synchronization).
+  \item Intermittent motion: one step per pulse (200--2000+ steps/rev).
+  \item High holding torque but low drive torque.
+  \item Good for positioning (printers, small actuators).
+\end{itemize}
+
+\vspace{4pt}
+\textbf{Linear actuators:}
+\begin{itemize}
+  \item \textbf{Hydraulic/pneumatic cylinders:} limited stroke, straight-line output. Common in construction equipment (become links in a slider-crank).
+  \item \textbf{Solenoids:} very short stroke (2--3 cm), fast response, used as switches.
+\end{itemize}
+\pref{78--80}
+\end{frame}
+
+% ============================================================
+% SUMMARY
+% ============================================================
+
+\begin{frame}
+\frametitle{Chapter 2: Summary of Key Concepts}
+
+\begin{enumerate}
+  \item A rigid body in a plane has \textbf{3 DOF}; in 3-D space, \textbf{6 DOF}.
+  \item \textbf{Links} (binary, ternary, quaternary) connect via \textbf{joints} (revolute, prismatic, half joints).
+  \item \textbf{Gruebler/Kutzbach}: $M = 3(L-1) - 2J_1 - J_2$. Positive $M$ = mechanism; zero = structure; negative = preloaded.
+  \item \textbf{Number synthesis}: only even numbers of links for odd-DOF mechanisms. Simplest 1-DOF = fourbar (4 binary links).
+  \item \textbf{Linkage transformation} (6 rules) converts basic chains into sliders, cams, gears, etc.
+  \item \textbf{Grashof condition}: $S + L \leq P + Q$. Determines whether a full revolution is possible. 3 classes, 14 Barker types.
+  \item \textbf{Inversion}: grounding different links creates different motions from the same chain.
+  \item \textbf{Motor selection}: based on torque-speed characteristics. Servos (closed-loop) vs.\ steppers (open-loop).
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Key Equations to Remember}
+
+\begin{yellowbox}
+\begin{tabular}{@{}ll@{}}
+\textbf{Gruebler's eq.} & $M = 3(L - 1) - 2J$ \\[4pt]
+\textbf{Kutzbach's mod.} & $M = 3(L - 1) - 2J_1 - J_2$ \\[4pt]
+\textbf{Grashof condition} & $S + L \leq P + Q$ \\[4pt]
+\textbf{Spatial mobility} & $M = 6(L-1) - 5J_1 - 4J_2 - 3J_3 - 2J_4 - J_5$ \\[4pt]
+\textbf{Assemblability ($N$-bar)} & $L_N \leq \sum_{k=1}^{N-1} L_k$ \\[4pt]
+\textbf{Revolvability} & $L_i + L_N \leq \sum_{k=1, k\neq i}^{N-1} L_k$ \\[4pt]
+\textbf{AC motor speed} & $n_s = 120f / p$ \\[4pt]
+\textbf{Bearing ratio} & $BR = L/D \geq 1.5$ \\
+\end{tabular}
+\end{yellowbox}
+\end{frame}
+
+\begin{frame}
+\frametitle{Key Definitions to Remember}
+
+\begin{yellowbox}
+\small
+\begin{tabular}{@{}p{3cm}p{7.5cm}@{}}
+\textbf{DOF / Mobility} & Number of independent inputs needed \\
+\textbf{Link} & Rigid body with $\geq 2$ nodes \\
+\textbf{Joint (pair)} & Connection allowing relative motion \\
+\textbf{Full joint} & 1 DOF (removes 2 DOF from system) \\
+\textbf{Half joint} & 2 DOF (removes 1 DOF from system) \\
+\textbf{Kinematic chain} & Assemblage of links and joints \\
+\textbf{Mechanism} & Grounded kinematic chain \\
+\textbf{Crank} & Full revolution, pivoted to ground \\
+\textbf{Rocker} & Oscillation, pivoted to ground \\
+\textbf{Coupler} & Complex motion, not grounded \\
+\textbf{Inversion} & Grounding a different link \\
+\textbf{Grashof} & $S + L \leq P + Q$; full rotation possible \\
+\textbf{Isomer} & Same link counts, different connections \\
+\textbf{Servomotor} & Closed-loop motor with feedback \\
+\end{tabular}
+\end{yellowbox}
+\end{frame}
+
+\begin{frame}
+\frametitle{Self-Check Questions}
+
+Test your understanding of Chapter~2:
+
+\begin{enumerate}
+  \item How many DOF does a rigid body have in a plane? In 3-D space?
+  \item What is the difference between a full joint and a half joint? How does each affect the mobility equation?
+  \item State Gruebler's equation. What are $L$, $J$, and $G$?
+  \item How do you count multiple joints in Gruebler's equation?
+  \item A mechanism has 6 links and 7 full joints. What is its DOF?
+  \item State the Grashof condition. What are the three classes?
+  \item For a Grashof Class I fourbar, what type of mechanism results from grounding the shortest link? A link adjacent to it?
+  \item Name the six linkage transformation rules. Which ones preserve DOF?
+  \item What is the difference between Watt's sixbar and Stephenson's sixbar?
+  \item What is the bearing ratio and why must it be $\geq 1.5$?
+  \item Compare servomotors and stepper motors. When would you use each?
+  \item What is a Gruebler paradox? Give an example.
+\end{enumerate}
+\end{frame}
+
+\end{document}

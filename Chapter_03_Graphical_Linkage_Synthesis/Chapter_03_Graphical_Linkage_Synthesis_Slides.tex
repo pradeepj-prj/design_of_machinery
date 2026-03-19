@@ -1,0 +1,752 @@
+\documentclass[10pt,aspectratio=43]{beamer}
+
+\usetheme{default}
+\usecolortheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,calc,decorations.pathreplacing,angles,quotes}
+
+\usepackage{tcolorbox}
+\tcbuselibrary{skins}
+
+\newtcolorbox{yellowbox}{
+  colback=yellow!20, colframe=yellow!20, boxrule=0pt, arc=0pt,
+  left=4pt, right=4pt, top=4pt, bottom=4pt}
+\newtcolorbox{redbox}{
+  colback=red!15, colframe=red!15, boxrule=0pt, arc=0pt,
+  left=4pt, right=4pt, top=4pt, bottom=4pt}
+\newtcolorbox{greenbox}{
+  colback=green!10, colframe=green!10, boxrule=0pt, arc=0pt,
+  left=4pt, right=4pt, top=4pt, bottom=4pt}
+
+\setbeamertemplate{footline}{%
+  \hfill\insertframenumber/\inserttotalframenumber\hspace*{6pt}\vspace*{4pt}%
+}
+\setbeamertemplate{itemize items}[circle]
+
+\newcommand{\pref}[1]{\vfill\hfill{\scriptsize\color{gray}[Norton, pp.~#1]}}
+
+\title{Chapter 3: Graphical Linkage Synthesis}
+\subtitle{Design of Machinery --- Norton, 6th Edition}
+\author{}
+\date{}
+
+\begin{document}
+
+% ============================================================
+% TITLE
+% ============================================================
+
+\begin{frame}
+\frametitle{Chapter 3: Graphical Linkage Synthesis}
+
+\begin{itemize}
+  \item Qualitative, quantitative, and dimensional synthesis
+  \item Function, path, and motion generation
+  \item Limiting conditions: toggle positions, transmission angle
+  \item Two-position synthesis (rocker and coupler output)
+  \item Three-position synthesis (with specified and free pivots)
+  \item Quick-return mechanisms (fourbar and sixbar)
+  \item Coupler curves and their properties
+  \item Cognates and Roberts' theorem
+  \item Straight-line mechanisms (Watt, Chebyschev, Hoeken, etc.)
+  \item Dwell mechanisms
+\end{itemize}
+
+\vspace{4pt}
+\textbf{Related Reading:} Norton, Ch.~3, pp.~98--177.
+\end{frame}
+
+% ============================================================
+% 3.0--3.1 SYNTHESIS TYPES
+% ============================================================
+
+\begin{frame}
+\frametitle{Types of Synthesis}
+
+\begin{yellowbox}
+\textbf{Qualitative synthesis:} Creation of potential solutions \emph{in the absence of} a well-defined algorithm. More unknowns than equations $\to$ requires engineering judgment.
+\end{yellowbox}
+
+\vspace{4pt}
+\begin{yellowbox}
+\textbf{Quantitative (analytical) synthesis:} Generation of solutions using a defined algorithm. Equations exist; a numerical answer is obtained. Quality still requires judgment.
+\end{yellowbox}
+
+\vspace{4pt}
+\begin{yellowbox}
+\textbf{Type synthesis:} Determine the \emph{proper type} of mechanism best suited to the problem (linkage vs.\ cam vs.\ gear vs.\ cylinder, etc.).
+\end{yellowbox}
+
+\vspace{4pt}
+\begin{yellowbox}
+\textbf{Dimensional synthesis:} Determine the \emph{proportions (link lengths)} necessary to accomplish the desired motions. This chapter: \textbf{graphical} methods. Chapter~5: analytical methods.
+\end{yellowbox}
+\pref{98--100}
+\end{frame}
+
+\begin{frame}
+\frametitle{Type Synthesis: Choosing the Right Mechanism}
+
+\textbf{Example:} Track a part on a conveyor belt and spray a chemical coating. Requirements: straight-line motion, high speed, accuracy, repeatability, low cost.
+
+\vspace{4pt}
+Possible solutions:
+\begin{itemize}
+  \item A straight-line linkage
+  \item A cam and follower
+  \item An air cylinder / hydraulic cylinder
+  \item A robot / solenoid
+\end{itemize}
+
+\vspace{4pt}
+Each has trade-offs in cost, precision, reliability, and complexity.
+
+\begin{redbox}
+\textbf{Design is essentially an exercise in trade-offs.} Seldom will there be one clear, obvious solution. Remember: \emph{an engineer can do, with one dollar, what any fool can do for ten dollars.}
+\end{redbox}
+\pref{99--100}
+\end{frame}
+
+% ============================================================
+% 3.2 FUNCTION, PATH, MOTION GENERATION
+% ============================================================
+
+\begin{frame}
+\frametitle{Function, Path, and Motion Generation}
+
+\begin{yellowbox}
+\textbf{Function generation:} Correlation of an \emph{input motion with an output motion} in a mechanism. The mechanism is a ``black box'' that delivers a predictable output for a known input.
+\end{yellowbox}
+
+\vspace{4pt}
+\begin{yellowbox}
+\textbf{Path generation:} Control of a \emph{point} in the plane such that it follows a prescribed path. Orientation of the link is \emph{not} controlled. (Coupler curves.)
+\end{yellowbox}
+
+\vspace{4pt}
+\begin{yellowbox}
+\textbf{Motion generation:} Control of a \emph{line} (or body) in the plane such that it assumes prescribed sequential positions. Both position \emph{and} orientation are controlled. This is the most general case; path generation is a subset.
+\end{yellowbox}
+
+\vspace{4pt}
+\textbf{Planar vs.\ spatial:} We focus on planar (2-D) mechanisms. Many 3-D devices are constructed from \textbf{duplicate planar linkages} in parallel planes.
+\pref{100--101}
+\end{frame}
+
+% ============================================================
+% 3.3 LIMITING CONDITIONS
+% ============================================================
+
+\begin{frame}
+\frametitle{Limiting Conditions: Toggle Positions}
+
+After synthesizing a linkage, you \textbf{must} check for limiting conditions.
+
+\begin{yellowbox}
+\textbf{Toggle positions:} Positions at the limits of a fourbar linkage's motion, determined by the \emph{colinearity of two of the moving links}.
+\begin{itemize}
+  \item Non-Grashof triple-rocker: has 4 toggle positions.
+  \item Grashof double-rocker: has 2 toggle positions per driven link.
+\end{itemize}
+\end{yellowbox}
+
+\vspace{4pt}
+At a toggle, the linkage cannot be driven through by force applied to the input link --- it must be pushed ``over center'' by a different link or by momentum (e.g., a flywheel).
+
+\vspace{4pt}
+\begin{redbox}
+After synthesizing a multi-position linkage, you \textbf{must} check for toggle positions \emph{between} your design positions. A CAE tool (e.g., \textsc{Linkages}) will check this automatically.
+\end{redbox}
+
+\vspace{4pt}
+Toggles can be useful: self-locking feature (e.g., pickup truck tailgate, ironing board legs).
+\pref{102--103}
+\end{frame}
+
+\begin{frame}
+\frametitle{Limiting Conditions: Transmission Angle}
+
+\begin{yellowbox}
+The \textbf{transmission angle} $\mu$ is the angle between the \emph{output link} and the \emph{coupler}. It is a measure of the quality of force and velocity transmission at the joint.
+\end{yellowbox}
+
+\vspace{4pt}
+The force $\mathbf{F}_{34}$ transmitted from coupler to output decomposes into:
+\begin{itemize}
+  \item \textbf{Tangential component} $F^t_{34} = F_{34}\sin\mu$ $\to$ creates output torque.
+  \item \textbf{Radial component} $F^r_{34} = F_{34}\cos\mu$ $\to$ only creates bearing friction.
+\end{itemize}
+
+\vspace{4pt}
+\begin{redbox}
+\textbf{Optimum:} $\mu = 90^\circ$ (all force creates torque).
+
+\textbf{Minimum acceptable:} $\mu \geq 40^\circ$ for most designs. Below this, force transmission is poor and the linkage may stall or have jerky motion.
+\end{redbox}
+
+\vspace{4pt}
+The transmission angle varies continuously as the linkage moves. You must check $\mu_{\min}$ over the full range of motion.
+\pref{103--105}
+\end{frame}
+
+% ============================================================
+% 3.4 POSITION SYNTHESIS
+% ============================================================
+
+\begin{frame}
+\frametitle{Two-Position Synthesis: Overview}
+
+\begin{yellowbox}
+\textbf{Position synthesis:} Determination of the link lengths necessary to accomplish the desired motions. Graphical methods work well for \textbf{up to three} design positions. Beyond three $\to$ analytical/computer methods (Chapter~5).
+\end{yellowbox}
+
+\vspace{6pt}
+Two-position synthesis has two subcategories:
+
+\begin{center}
+\begin{tabular}{l|l|l}
+\toprule
+\textbf{Output type} & \textbf{Problem} & \textbf{Generation} \\
+\midrule
+Rocker output & Pure rotation of a link & Function gen. \\
+Coupler output & Complex motion of a line & Motion gen. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\textbf{Tools needed:} Only a compass, protractor, and straightedge (Euclidean geometry). The key construction is \textbf{perpendicular bisection} of line segments.
+\pref{105}
+\end{frame}
+
+\begin{frame}
+\frametitle{Two-Position Synthesis: Rocker Output (Example 3-1)}
+
+\textbf{Problem:} Design a Grashof crank-rocker with $45^\circ$ of rocker rotation and equal time forward and back.
+
+\vspace{4pt}
+\textbf{Method:}
+\begin{enumerate}
+  \item Draw output link $O_4B$ in both extreme positions ($B_1$, $B_2$) subtending $\theta_4$.
+  \item Draw chord $B_1B_2$ and extend it.
+  \item Select a convenient point $O_2$ on line $B_1B_2$ extended.
+  \item Bisect segment $B_1B_2$ and draw a circle of that radius about $O_2$.
+  \item The two intersections with the extended chord give $A_1$ and $A_2$.
+  \item Measure coupler ($A_1B_1$), crank ($O_2A_1$), rocker ($O_4B_1$), ground ($O_2O_4$).
+  \item Check Grashof condition. If non-Grashof, move $O_2$ farther from $O_4$ and repeat.
+\end{enumerate}
+
+\vspace{4pt}
+\begin{greenbox}
+\textbf{Key insight:} We start from the \emph{output end} (the only defined aspect) and work backward. Many ``free choices'' exist --- these are qualitative design decisions that affect quality.
+\end{greenbox}
+\pref{105--107}
+\end{frame}
+
+\begin{frame}
+\frametitle{Two-Position Synthesis: Coupler Output (Example 3-3)}
+
+\textbf{Problem:} Move link $CD$ from position $C_1D_1$ to $C_2D_2$ (motion generation).
+
+\vspace{4pt}
+\textbf{Method:}
+\begin{enumerate}
+  \item Draw $C_1D_1$ and $C_2D_2$ in the plane.
+  \item Draw construction lines $C_1C_2$ and $D_1D_2$.
+  \item Bisect $C_1C_2$ and $D_1D_2$; extend perpendicular bisectors.
+  \item Select any convenient point on each bisector as the fixed pivots $O_2$ and $O_4$.
+  \item Connect: $O_2C_1$ = link~2, $O_4D_1$ = link~4, $C_1D_1$ = link~3 (coupler), $O_2O_4$ = link~1 (ground).
+  \item Check Grashof condition and transmission angles.
+\end{enumerate}
+
+\vspace{4pt}
+\begin{redbox}
+The coupler output solution is often a \textbf{non-Grashof triple-rocker}. To drive it, add a \textbf{dyad} (twobar chain) to create a Watt sixbar mechanism with a motor-driven crank.
+\end{redbox}
+\pref{107--110}
+\end{frame}
+
+\begin{frame}
+\frametitle{The Rotopole and Driver Dyads}
+
+\textbf{Rocker output with complex displacement} (Example 3-2): To move link $CD$ through two positions using a \emph{rocker}, find the \textbf{rotopole} --- the intersection of the perpendicular bisectors of $C_1C_2$ and $D_1D_2$. This reduces the problem to Example~3-1.
+
+\vspace{6pt}
+\textbf{Adding a driver dyad} (Example 3-4):
+\begin{itemize}
+  \item When the fourbar is a double- or triple-rocker, it cannot be driven by a simple crank.
+  \item Solution: add a \textbf{dyad} (2-link chain) as a driver stage $\to$ creates a \textbf{Watt sixbar}.
+  \item The driver subchain must be a \textbf{Grashof crank-rocker}.
+  \item There are an \emph{infinity} of driver dyads possible; the motor pivot $O_6$ can be placed at any convenient location.
+\end{itemize}
+\pref{107--110}
+\end{frame}
+
+% ============================================================
+% THREE-POSITION SYNTHESIS
+% ============================================================
+
+\begin{frame}
+\frametitle{Three-Position Synthesis}
+
+Three-position synthesis defines 3 positions of a line in the plane and creates a fourbar to move it through all three. This is a \textbf{motion generation} problem.
+
+\vspace{4pt}
+\textbf{Three variants:}
+
+\begin{center}
+\small
+\begin{tabular}{l|l}
+\toprule
+\textbf{Variant} & \textbf{What you specify} \\
+\midrule
+Specified moving pivots & 3 positions of coupler $CD$ $\to$ find fixed pivots \\
+Alternate moving pivots & 3 positions of $CD$; use different attachment points $EF$ \\
+Specified fixed pivots & Fixed pivots $O_2$, $O_4$ $\to$ find moving pivots via \textbf{inversion} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\textbf{Method} (specified moving pivots): Same perpendicular bisector technique as two-position, but applied to three positions ($C_1C_2C_3$ and $D_1D_2D_3$). The bisectors of $C_1C_2$ and $C_2C_3$ intersect at $O_2$; similarly for $D$ points.
+
+\vspace{4pt}
+Must always check for toggles \textbf{between} design positions!
+\pref{111--114}
+\end{frame}
+
+\begin{frame}
+\frametitle{Three-Position Synthesis with Specified Fixed Pivots}
+
+When fixed pivot locations are constrained by the package, use \textbf{inversion}:
+
+\vspace{4pt}
+\begin{yellowbox}
+\textbf{Key idea:} Instead of the coupler moving relative to the ground, pretend the \emph{ground plane moves} relative to the coupler. This swaps the roles of coupler and ground.
+\end{yellowbox}
+
+\vspace{4pt}
+\textbf{Method} (Examples 3-7 and 3-8):
+\begin{enumerate}
+  \item Draw all 3 coupler positions ($C_1D_1$, $C_2D_2$, $C_3D_3$) and the ground link $O_2O_4$.
+  \item Transfer the ground link position to each coupler position using arc constructions $\to$ find the 3 ``inverted'' ground positions.
+  \item These 3 inverted positions ($E_1F_1$, $E_2F_2$, $E_3F_3$) define a standard 3-position synthesis problem.
+  \item Solve for ``fixed'' pivots $G$ and $H$ (which are really moving pivots on the coupler).
+  \item \textbf{Reinvert}: the moving pivots become points on link~3, and $O_2O_4$ resumes its role as ground.
+\end{enumerate}
+\pref{114--118}
+\end{frame}
+
+\begin{frame}
+\frametitle{Beyond Three Positions}
+
+\begin{redbox}
+\textbf{Four-position synthesis} does not lend itself to manual graphical solutions. It requires:
+\begin{itemize}
+  \item A set of simultaneous vector equations representing all 4 positions.
+  \item Free choices of some variables, then numerical solution.
+  \item Computer programs: \textsc{Lincages} (Erdman), \textsc{Kinsyn} (Kaufman), \textsc{Linkages} (Norton).
+\end{itemize}
+See Chapter~5 for the analytical approach.
+\end{redbox}
+
+\vspace{6pt}
+General principle: the more constraints imposed, the harder the synthesis. Each additional position dramatically increases difficulty. Graphical methods are practical for $\leq 3$ positions.
+\pref{119}
+\end{frame}
+
+% ============================================================
+% 3.5 QUICK-RETURN MECHANISMS
+% ============================================================
+
+\begin{frame}
+\frametitle{Quick-Return Mechanisms}
+
+Many machines need different speeds for ``forward'' (working) and ``return'' strokes.
+
+\begin{yellowbox}
+\textbf{Time ratio} $T_R$: the ratio of time for the forward stroke to the return stroke.
+\[
+  T_R = \frac{\alpha}{\beta}, \qquad \alpha + \beta = 360^\circ \qquad \therefore\quad T_R = \frac{\alpha}{360^\circ - \alpha} \tag{3.1}
+\]
+\textbf{Construction angle:}
+\[
+  \delta = |180^\circ - \alpha| = |180^\circ - \beta| \tag{3.2}
+\]
+\end{yellowbox}
+
+\vspace{4pt}
+A \textbf{non-quick-return} linkage has $O_2$ on the chord $B_1B_2$ extended $\to$ $\alpha = \beta = 180^\circ$ $\to$ $T_R = 1$.
+
+A \textbf{quick-return} has $O_2$ off the chord $\to$ $\alpha \neq \beta$ $\to$ $T_R \neq 1$.
+\pref{119--120}
+\end{frame}
+
+\begin{frame}
+\frametitle{Fourbar and Sixbar Quick-Return Designs}
+
+\textbf{Fourbar quick-return} (Example 3-9):
+\begin{itemize}
+  \item Crank-rocker with specified $T_R$ and rocker angle $\theta_4$.
+  \item Works well for $T_R$ down to about $1{:}1.5$.
+  \item Below that, transmission angles become poor.
+\end{itemize}
+
+\vspace{6pt}
+\textbf{Sixbar drag-link quick-return} (Example 3-10):
+\begin{itemize}
+  \item For larger time ratios (up to $\sim 1{:}2$).
+  \item First stage: fourbar \textbf{drag link} (double-crank) with the desired $T_R$.
+  \item Second stage: \textbf{dyad} driven by the ``dragged'' crank, producing either rocker or slider output.
+\end{itemize}
+
+\vspace{4pt}
+\textbf{Crank-shaper quick-return} (Fig.~3-14):
+\begin{itemize}
+  \item Inversion \#2 of the crank-slider.
+  \item Capable of very large time ratios.
+  \item Used in metal shaper machines for slow cutting / fast return.
+\end{itemize}
+\pref{119--124}
+\end{frame}
+
+% ============================================================
+% 3.6 COUPLER CURVES
+% ============================================================
+
+\begin{frame}
+\frametitle{Coupler Curves}
+
+\begin{yellowbox}
+The \textbf{coupler} is the most interesting link in any linkage --- it is in complex motion and any point on it traces a \textbf{coupler curve}. The fourbar coupler curve is a 6th-degree algebraic curve.
+\end{yellowbox}
+
+\vspace{4pt}
+\[
+  m = 2 \cdot 3^{(n/2 - 1)} \tag{3.3}
+\]
+gives the max degree $m$ for a mechanism with $n$ links connected by revolute joints: fourbar $\to$ degree~6, sixbar $\to$ 18, eightbar $\to$ 54.
+
+\vspace{4pt}
+Coupler curves can approximate:
+\begin{itemize}
+  \item \textbf{Straight lines} (approximate or exact)
+  \item \textbf{Circular arcs} with remote centers
+  \item \textbf{Complex paths} with cusps, crunodes, and loops
+\end{itemize}
+
+\vspace{4pt}
+\textbf{Cusp:} a sharp point where velocity is instantaneously zero $\to$ useful for transporting, stamping, feeding operations.
+
+\textbf{Crunode:} a point where the curve crosses itself, creating multiple loops.
+\pref{124--126}
+\end{frame}
+
+\begin{frame}
+\frametitle{Coupler Curve Shapes and the H\&N Atlas}
+
+\textbf{``Cursory catalog'' of coupler curve shapes:} pseudo-ellipse, kidney bean, banana, crescent, single straight, double straight, teardrop, scimitar, umbrella, triple cusp, figure eight, triple loop.
+
+\vspace{6pt}
+\textbf{The Hrones and Nelson (H\&N) Atlas:}
+\begin{itemize}
+  \item $\sim$7000 coupler curves for Grashof crank-rocker linkages.
+  \item Organized by link ratios (unit-length crank), 50 coupler points per linkage, 10 linkages per page.
+  \item Each dashed station = $5^\circ$ of crank rotation $\to$ shows velocity variation.
+  \item Invaluable starting point for path generation problems.
+\end{itemize}
+
+\vspace{4pt}
+\textbf{Symmetrical fourbar coupler curves:} When $L_3/L_2 = L_4/L_2 = BP/L_2$ (equation~3.4: $AB = O_4B = BP$), only 3 parameters define the geometry instead of 5, greatly simplifying the design space.
+\pref{125--132}
+\end{frame}
+
+\begin{frame}
+\frametitle{Practical Application: Film Advance Mechanism}
+
+\textbf{Movie camera film advance} (Fig.~3-18): A Grashof crank-rocker with a hook on the coupler at point~$C$:
+
+\begin{enumerate}
+  \item At point $F_1$: the hook enters a film sprocket hole (motion nearly perpendicular to film).
+  \item The coupler then pulls the film downward along an approximately straight line.
+  \item At point $F_2$: a \textbf{cusp} on the coupler curve causes the hook to decelerate, reverse, and smoothly exit the sprocket hole.
+  \item The remaining curve is ``wasting time'' --- film advances under inertia while the shutter closes and reopens.
+\end{enumerate}
+
+\vspace{4pt}
+\begin{greenbox}
+This example illustrates the power of coupler curves: a simple 4-link mechanism, with only 4 pins and no sliding joints, produces a complex and precisely timed motion from a single constant-speed motor.
+\end{greenbox}
+\pref{128}
+\end{frame}
+
+% ============================================================
+% 3.7 COGNATES
+% ============================================================
+
+\begin{frame}
+\frametitle{Cognates and Roberts' Theorem}
+
+\begin{yellowbox}
+\textbf{Roberts' theorem} (1875): Any coupler curve of a fourbar linkage can be generated by \textbf{three different fourbar linkages} (called \textbf{cognates}). These three linkages share the same coupler curve but have \emph{different fixed pivot locations}.
+\end{yellowbox}
+
+\vspace{4pt}
+This is extremely useful when a good coupler curve solution has fixed pivots in an inconvenient location.
+
+\vspace{6pt}
+\textbf{Cayley diagram} construction:
+\begin{enumerate}
+  \item Start with the original fourbar and its coupler point $P$.
+  \item Align links~2 and~4 with the coupler to form a reference triangle.
+  \item Construct lines parallel to all sides of the original fourbar.
+  \item The intersections define the two cognate linkages.
+  \item All three share similar triangles: $\triangle A_1B_1P \sim \triangle A_2PB_2 \sim \triangle PA_3B_3$.
+\end{enumerate}
+\pref{134--137}
+\end{frame}
+
+\begin{frame}
+\frametitle{Cognates: Properties and Applications}
+
+\textbf{Properties of cognates} (Nolle/Luck):
+\begin{itemize}
+  \item If the original is a Grashof \textbf{crank-rocker}, one cognate is also a crank-rocker (same $\mu_{\min}$); the other is a Grashof double-rocker.
+  \item If the original is a non-Grashof linkage, the cognates may have more favorable characteristics.
+\end{itemize}
+
+\vspace{6pt}
+\textbf{Practical use: Parallel motion from cognates}
+\begin{itemize}
+  \item Combine cognate \#1 with cognate \#3 (sharing a common coupler point $P$).
+  \item Merge overlapping links $\to$ results in a \textbf{Watt I sixbar} that produces \textbf{parallel motion} (curvilinear translation) of a coupler point.
+  \item Useful when you need a point to follow a path while maintaining orientation.
+\end{itemize}
+
+\vspace{4pt}
+\textbf{Geared fivebar cognates:} A fourbar cognate can also be converted to a geared fivebar mechanism, providing yet another configuration option.
+\pref{137--140}
+\end{frame}
+
+% ============================================================
+% 3.8 STRAIGHT-LINE MECHANISMS
+% ============================================================
+
+\begin{frame}
+\frametitle{Straight-Line Mechanisms}
+
+One of the oldest problems in kinematics: generate straight-line motion from rotary input. Two categories:
+
+\vspace{4pt}
+\textbf{Approximate straight-line linkages:}
+\begin{itemize}
+  \item \textbf{Watt's linkage} (1784): the first straight-line mechanism, invented for the steam engine. Uses the coupler of a non-Grashof double-rocker. Approximate.
+  \item \textbf{Chebyschev linkage}: a Grashof double-crank (drag link). Link ratios $L_1:L_2:L_3 = 1:2.5:2.5$, ground = $2$.
+  \item \textbf{Hoeken linkage}: a Grashof \textbf{crank-rocker} (practical advantage: can be continuously driven). Also provides nearly \textbf{constant velocity} along the center of the straight portion.
+\end{itemize}
+
+\vspace{4pt}
+\textbf{Exact straight-line linkages:}
+\begin{itemize}
+  \item \textbf{Peaucellier} (1864): 8 links --- the first exact straight-line linkage.
+  \item \textbf{Watt-Evans}: 6 links, exact but limited range.
+  \item Generally more complex $\to$ more joints $\to$ more error in practice.
+\end{itemize}
+\pref{141--148}
+\end{frame}
+
+\begin{frame}
+\frametitle{The Hoeken Linkage: Optimized Straight-Line Design}
+
+The Hoeken linkage is the most practical straight-line fourbar because:
+\begin{itemize}
+  \item It is a \textbf{Grashof crank-rocker} (can be motor-driven continuously).
+  \item It provides \textbf{nearly constant velocity} along the straight portion.
+  \item Table~3-1 gives optimized link ratios for various crank-angle ranges.
+\end{itemize}
+
+\vspace{4pt}
+\begin{yellowbox}
+\textbf{Two optimization criteria} (you cannot have both simultaneously):
+\begin{enumerate}
+  \item \textbf{Minimum straightness error:} minimize deviation from a true straight line.
+  \item \textbf{Minimum velocity error:} minimize deviation from constant velocity along the line.
+\end{enumerate}
+Table~3-1 provides link ratios for each criterion across crank-angle ranges from $20^\circ$ to $180^\circ$.
+\end{yellowbox}
+
+\vspace{4pt}
+The position and velocity structural errors are typically $< 1\%$ for moderate crank-angle ranges ($\leq 100^\circ$).
+\pref{143--148; Table 3-1}
+\end{frame}
+
+% ============================================================
+% 3.9 DWELL MECHANISMS
+% ============================================================
+
+\begin{frame}
+\frametitle{Dwell Mechanisms}
+
+\begin{yellowbox}
+A \textbf{dwell} is a period during which the output link remains stationary while the input continues to move. Dwell mechanisms are needed for indexing, assembly, and intermittent-motion applications.
+\end{yellowbox}
+
+\vspace{6pt}
+\textbf{Single-dwell sixbar} (Fig.~3-31):
+\begin{enumerate}
+  \item Find a fourbar coupler curve with a \textbf{pseudo-circular-arc} segment over the desired portion of crank rotation.
+  \item Add a dyad whose fixed pivot is at the approximate center of that arc.
+  \item During the arc portion: the output link dwells (the coupler point moves on a circle centered at the output pivot).
+  \item During the rest: the coupler point drives the output through its working stroke.
+\end{enumerate}
+
+\vspace{4pt}
+The dwell will have some \textbf{``jitter''} because the pseudo-arc is only an approximation to a true circle.
+\pref{148--152}
+\end{frame}
+
+\begin{frame}
+\frametitle{Double-Dwell Mechanisms}
+
+\textbf{Double-dwell sixbar} (Fig.~3-32):
+\begin{itemize}
+  \item Requires a coupler curve with \textbf{two} approximately straight segments.
+  \item Add a dyad with a \textbf{slider in a slot} (link~6) whose pivot is tangent to both straight portions.
+  \item During each straight portion: the slider moves along link~6 without rotating it $\to$ output dwells.
+  \item Between the straight portions: the coupler drives the output through its stroke.
+\end{itemize}
+
+\vspace{6pt}
+\begin{redbox}
+\textbf{Limitations of linkage dwells:}
+\begin{itemize}
+  \item Always have some jitter (not exact dwells).
+  \item Tend to be physically large relative to output motion.
+  \item Output acceleration can be very high.
+  \item Cams give \emph{exact} dwells but have their own limitations.
+\end{itemize}
+See Chapter~8 for cam-based dwell designs.
+\end{redbox}
+\pref{151--153}
+\end{frame}
+
+% ============================================================
+% 3.10 OTHER USEFUL LINKAGES
+% ============================================================
+
+\begin{frame}
+\frametitle{Other Useful Linkages}
+
+\textbf{Constant-velocity piston motion} (Fig.~3-34):
+\begin{itemize}
+  \item Watt II sixbar linkage designed so that the slider moves at nearly constant velocity over a portion of the stroke.
+  \item Useful for applications requiring uniform coating or feed rates.
+\end{itemize}
+
+\vspace{6pt}
+\textbf{Large angular excursion rocker} (Fig.~3-35):
+\begin{itemize}
+  \item Stephenson III sixbar that gives $180^\circ$ oscillation of the output rocker from a fully rotating crank input.
+  \item Useful for large-displacement reciprocating mechanisms.
+\end{itemize}
+
+\vspace{6pt}
+\textbf{Remote center circular motion} (Fig.~3-36):
+\begin{itemize}
+  \item Eightbar linkage providing $-360^\circ$ oscillatory rotation of output link.
+  \item Emulates a large-radius circular arc without a physical pivot at the center.
+\end{itemize}
+\pref{153--157}
+\end{frame}
+
+% ============================================================
+% SUMMARY
+% ============================================================
+
+\begin{frame}
+\frametitle{Chapter 3: Summary of Key Concepts}
+
+\begin{enumerate}
+  \item \textbf{Three types of synthesis:} qualitative, quantitative, type/dimensional.
+  \item \textbf{Three types of generation:} function, path, and motion.
+  \item \textbf{Limiting conditions:} always check toggle positions and transmission angle ($\mu_{\min} \geq 40^\circ$).
+  \item \textbf{Two-position synthesis:} perpendicular bisector method. Rocker output or coupler output. Add a driver dyad if needed.
+  \item \textbf{Three-position synthesis:} extension of two-position method. Use \textbf{inversion} to specify fixed pivot locations.
+  \item \textbf{Quick-return:} time ratio $T_R = \alpha/\beta$; fourbar (up to $1{:}1.5$), sixbar drag-link (up to $1{:}2$), crank-shaper (larger ratios).
+  \item \textbf{Coupler curves:} 6th-degree curves (fourbar); cusps and crunodes; H\&N atlas is essential.
+  \item \textbf{Roberts' theorem:} three cognate fourbars share the same coupler curve.
+  \item \textbf{Straight-line linkages:} Watt, Chebyschev, Hoeken (practical best), Peaucellier (exact).
+  \item \textbf{Dwell mechanisms:} sixbar linkages using pseudo-arc or straight-line coupler curve segments.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Key Equations to Remember}
+
+\begin{yellowbox}
+\begin{tabular}{@{}ll@{}}
+\textbf{Time ratio} & $T_R = \dfrac{\alpha}{\beta} = \dfrac{\alpha}{360^\circ - \alpha}$ \\[8pt]
+\textbf{Construction angle} & $\delta = |180^\circ - \alpha| = |180^\circ - \beta|$ \\[8pt]
+\textbf{Max coupler curve degree} & $m = 2 \cdot 3^{(n/2-1)}$ \\[8pt]
+\textbf{Symmetrical fourbar criterion} & $AB = O_4B = BP$ \\[8pt]
+\textbf{Transmission angle rule} & $\mu_{\min} \geq 40^\circ$ (optimum: $90^\circ$) \\[8pt]
+\textbf{Roberts' theorem} & 3 cognate fourbars share 1 coupler curve \\
+\end{tabular}
+\end{yellowbox}
+\end{frame}
+
+\begin{frame}
+\frametitle{Key Definitions to Remember}
+
+\begin{yellowbox}
+\small
+\begin{tabular}{@{}p{3.2cm}p{7.3cm}@{}}
+\textbf{Qualitative synthesis} & Creative, no algorithm; judgment-based \\
+\textbf{Quantitative synthesis} & Algorithm-based; numerical answers \\
+\textbf{Function generation} & Correlate input motion $\to$ output motion \\
+\textbf{Path generation} & Control path of a point (not orientation) \\
+\textbf{Motion generation} & Control position \emph{and} orientation of a body \\
+\textbf{Toggle position} & Limit of motion; two links become colinear \\
+\textbf{Transmission angle} & Angle between coupler and output link \\
+\textbf{Coupler curve} & Path traced by any point on the coupler \\
+\textbf{Cusp} & Sharp point; instantaneous zero velocity \\
+\textbf{Crunode} & Self-intersection of coupler curve \\
+\textbf{Cognate} & Different fourbar sharing the same coupler curve \\
+\textbf{Rotopole} & Intersection of perpendicular bisectors \\
+\textbf{Dyad} & Twobar chain added as a driver stage \\
+\textbf{Time ratio} & $\alpha/\beta$; measure of quick-return \\
+\end{tabular}
+\end{yellowbox}
+\end{frame}
+
+\begin{frame}
+\frametitle{Self-Check Questions}
+
+Test your understanding of Chapter~3:
+
+\begin{enumerate}
+  \item What is the difference between function, path, and motion generation?
+  \item What is the transmission angle and what is its minimum acceptable value? Why?
+  \item Describe the perpendicular-bisector method for two-position synthesis with rocker output.
+  \item What is a toggle position? Why must you check for them between design positions?
+  \item How does the ``inversion'' technique allow you to specify fixed pivot locations in three-position synthesis?
+  \item Define the time ratio. Derive $T_R$ from $\alpha$ and $\beta$.
+  \item Name three types of quick-return mechanisms and their typical time-ratio ranges.
+  \item What is a coupler curve? What degree is it for a fourbar linkage?
+  \item State Roberts' theorem. How is it useful in practice?
+  \item Compare the Watt, Chebyschev, and Hoeken straight-line linkages. Which is most practical and why?
+  \item What is the difference between a single-dwell and double-dwell sixbar mechanism?
+  \item Why is the Hoeken linkage preferred over exact straight-line mechanisms for most applications?
+\end{enumerate}
+\end{frame}
+
+\end{document}
